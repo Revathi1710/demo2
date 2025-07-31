@@ -1,0 +1,567 @@
+/* TradeIndia Style Plan View CSS */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Banner Section */
+.planview-banner {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.planview-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.planview-banner .container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.planview-banner h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.planview-banner p {
+  font-size: 1.3rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Plan Details Section */
+.planview-details {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.planview-details .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Plan Card */
+.plan-card {
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  border: 1px solid #e9ecef;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+}
+
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #1e3c72, #2a5298, #00b4db);
+}
+
+/* Plan Header */
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid #f1f3f4;
+}
+
+.plan-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e3c72;
+  margin: 0;
+}
+
+.plan-price {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.plan-price::before {
+  content: '₹';
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+/* Plan Features */
+.plan-features {
+  margin-bottom: 50px;
+}
+
+.plan-features h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e3c72;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plan-features h4::before {
+  content: '✨';
+  font-size: 1.2rem;
+}
+
+.plan-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.plan-features li {
+  padding: 15px 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #f1f3f4;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.plan-features li:hover {
+  background-color: #f8f9fa;
+  padding-left: 10px;
+  border-radius: 8px;
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.plan-features li i {
+  font-size: 1.2rem;
+  color: #28a745;
+  min-width: 20px;
+}
+
+/* Buttons */
+.btn {
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  box-shadow: 0 8px 25px rgba(30, 60, 114, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(30, 60, 114, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #6c757d;
+  border: 2px solid #6c757d;
+}
+
+.btn-secondary:hover {
+  background: #6c757d;
+  color: white;
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+/* Error and Loading States */
+.error-container {
+  text-align: center;
+  padding: 100px 20px;
+  background: white;
+  border-radius: 20px;
+  margin: 50px auto;
+  max-width: 600px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.error-container h3 {
+  color: #dc3545;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #6c757d;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+/* TradeIndia Style Package Cards */
+.tradeindia-packages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.package-card {
+  background: white;
+  border-radius: 15px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.package-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+}
+
+.package-card:hover {
+  transform: translateY(-10px);
+  border-color: #2a5298;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.package-card.featured {
+  border-color: #28a745;
+  transform: scale(1.05);
+}
+
+.package-card.featured::before {
+  background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.package-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e3c72;
+  margin-bottom: 20px;
+}
+
+.package-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #28a745;
+  margin-bottom: 30px;
+}
+
+.package-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.package-features li {
+  padding: 10px 0;
+  color: #666;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.package-features li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .planview-banner h1 {
+    font-size: 2.5rem;
+  }
+  
+  .planview-banner p {
+    font-size: 1.1rem;
+  }
+  
+  .plan-card {
+    padding: 30px 20px;
+  }
+  
+  .plan-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .plan-header h2 {
+    font-size: 2rem;
+  }
+  
+  .plan-price {
+    font-size: 2.5rem;
+  }
+  
+  .btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+    margin: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .planview-banner {
+    padding: 60px 0;
+  }
+  
+  .planview-banner h1 {
+    font-size: 2rem;
+  }
+  
+  .planview-details {
+    padding: 40px 0;
+  }
+  
+  .plan-card {
+    padding: 20px 15px;
+  }
+  
+  .plan-features li {
+    font-size: 1rem;
+    padding: 12px 0;
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.plan-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Popular Badge */
+.popular-badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: linear-gradient(135deg, #ffc107, #ff8c00);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+  z-index: 10;
+}
+
+/* Package Header */
+.package-header {
+  margin-bottom: 25px;
+}
+
+.package-subtitle {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+/* Price Period */
+.price-period {
+  font-size: 1rem;
+  color: #6c757d !important;
+  margin-top: 5px;
+}
+
+.package-price .price-period {
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 5px;
+  color: #6c757d;
+}
+
+/* Package Actions */
+.package-actions {
+  margin-top: 30px;
+}
+
+/* Plan Title Section */
+.plan-title-section h2 {
+  margin-bottom: 5px;
+}
+
+.plan-subtitle {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.plan-price-section {
+  text-align: right;
+}
+
+/* No Features Styling */
+.no-features {
+  padding: 30px;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 2px dashed #dee2e6;
+}
+
+/* Enhanced Banner */
+.banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Related Plans Section */
+.related-plans {
+  margin-top: 80px;
+}
+
+.related-plans h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e3c72;
+  margin-bottom: 50px;
+}
+
+/* Enhanced Package Card Hover Effects */
+.package-card {
+  position: relative;
+}
+
+.package-card.featured {
+  border: 3px solid #28a745;
+  box-shadow: 0 15px 45px rgba(40, 167, 69, 0.2);
+}
+
+.package-card.featured:hover {
+  box-shadow: 0 25px 60px rgba(40, 167, 69, 0.3);
+}
+
+/* Spinner Loading */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Enhanced Button Styles */
+.btn-outline-primary {
+  border: 2px solid #1e3c72;
+  color: #1e3c72;
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background: #1e3c72;
+  border-color: #1e3c72;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Feature List Enhancements */
+.package-features li {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.package-features li i {
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 992px) {
+  .tradeindia-packages {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+  }
+  
+  .package-card.featured {
+    transform: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .plan-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .plan-price-section {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .popular-badge {
+    position: static;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+}
+
+/* TradeIndia Brand Colors */
+:root {
+  --tradeindia-primary: #1e3c72;
+  --tradeindia-secondary: #2a5298;
+  --tradeindia-success: #28a745;
+  --tradeindia-warning: #ffc107;
+  --tradeindia-danger: #dc3545;
+  --tradeindia-light: #f8f9fa;
+  --tradeindia-dark: #343a40;
+}
