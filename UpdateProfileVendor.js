@@ -86,11 +86,12 @@ const UpdateProfileVendor = () => {
 
   // Handle checkbox toggle for Business Details
   const handleCheckboxChange = (option) => {
+    const currentBusinessDetails = vendorData.businessDetails || [];
     let updated = [];
-    if (vendorData.businessDetails.includes(option)) {
-      updated = vendorData.businessDetails.filter((item) => item !== option);
+    if (currentBusinessDetails.includes(option)) {
+      updated = currentBusinessDetails.filter((item) => item !== option);
     } else {
-      updated = [...vendorData.businessDetails, option];
+      updated = [...currentBusinessDetails, option];
     }
     setVendorData({ ...vendorData, businessDetails: updated });
   };
@@ -169,7 +170,11 @@ const UpdateProfileVendor = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/vendorData`, { vendortoken })
       .then(response => {
         if (response.data.status === 'ok') {
-          setVendorData(response.data.data);
+          const responseData = {
+            ...response.data.data,
+            businessDetails: response.data.data.businessDetails || []
+          };
+          setVendorData(responseData);
           setBusinessType(response.data.data.businessType);
           
           // Set logo preview if exists
@@ -323,29 +328,29 @@ const UpdateProfileVendor = () => {
                       </div>
                     </div>
 
-                    {/* Business Details Checkboxes */}
-                    <div className="input-container-box">
-                      <div className="labelcontainer mb-3">
-                        <label className="form-label">Business Type</label>
-                      </div>
-                      <div className="form-group row mb-2">
-                        {businessDetailsOptions.map((option) => (
-                          <div className="form-check col-sm-2" key={option}>
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value={option}
-                              checked={vendorData.businessDetails.includes(option)}
-                              onChange={() => handleCheckboxChange(option)}
-                              id={`check-${option}`}
-                            />
-                            <label className="form-check-label" htmlFor={`check-${option}`}>
-                              {option}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                                         {/* Business Details Checkboxes */}
+                     <div className="input-container-box">
+                       <div className="labelcontainer mb-3">
+                         <label className="form-label">Business Type</label>
+                       </div>
+                       <div className="form-group row mb-2">
+                         {businessDetailsOptions.map((option) => (
+                           <div className="form-check col-sm-2" key={option}>
+                             <input
+                               className="form-check-input"
+                               type="checkbox"
+                               value={option}
+                               checked={vendorData.businessDetails && vendorData.businessDetails.includes(option)}
+                               onChange={() => handleCheckboxChange(option)}
+                               id={`check-${option}`}
+                             />
+                             <label className="form-check-label" htmlFor={`check-${option}`}>
+                               {option}
+                             </label>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
 
                     {/* Company Description */}
                     <div className="input-container-box description-section">
