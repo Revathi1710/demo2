@@ -52,16 +52,20 @@ $employeeDetails = getEmployeeDetails($employee_username);
     
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --dark-color: #1a252f;
-            --light-color: #ecf0f1;
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --info-color: #06b6d4;
+            --light-color: #f8fafc;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-primary: #374151;
+            --text-secondary: #6b7280;
             --sidebar-width: 280px;
             --sidebar-collapsed-width: 80px;
-            --transition: all 0.3s ease;
+            --transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
 
         * {
@@ -72,22 +76,44 @@ $employeeDetails = getEmployeeDetails($employee_username);
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             overflow-x: hidden;
+        }
+
+        /* Glass Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.15) 0%, transparent 50%);
+            z-index: -1;
         }
 
         /* Sidebar Styles */
         .sidebar {
             position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
+            top: 20px;
+            left: 20px;
+            height: calc(100vh - 40px);
             width: var(--sidebar-width);
-            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             transition: var(--transition);
             z-index: 1000;
-            overflow-y: auto;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
         .sidebar.collapsed {
@@ -95,29 +121,32 @@ $employeeDetails = getEmployeeDetails($employee_username);
         }
 
         .sidebar-header {
-            padding: 1.5rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             text-align: center;
             position: relative;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-logo {
-            max-width: 120px;
+            max-width: 80px;
             height: auto;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             transition: var(--transition);
+            filter: brightness(1.2) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .sidebar.collapsed .sidebar-logo {
-            max-width: 40px;
+            max-width: 35px;
         }
 
         .sidebar-title {
-            color: white;
-            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-size: 1.25rem;
             font-weight: 600;
             margin: 0;
             transition: var(--transition);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .sidebar.collapsed .sidebar-title {
@@ -126,30 +155,37 @@ $employeeDetails = getEmployeeDetails($employee_username);
 
         .sidebar-toggle {
             position: absolute;
-            top: 1rem;
+            top: 1.5rem;
             right: -15px;
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .sidebar-toggle:hover {
-            background: var(--accent-color);
+            background: rgba(255, 255, 255, 1);
             transform: scale(1.1);
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         /* Navigation Styles */
         .sidebar-nav {
             padding: 1rem 0;
+            overflow-y: auto;
         }
 
         .nav-section {
@@ -157,14 +193,15 @@ $employeeDetails = getEmployeeDetails($employee_username);
         }
 
         .nav-section-title {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             padding: 0 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             transition: var(--transition);
+            opacity: 0.8;
         }
 
         .sidebar.collapsed .nav-section-title {
@@ -172,40 +209,54 @@ $employeeDetails = getEmployeeDetails($employee_username);
         }
 
         .nav-item {
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            padding: 0 1rem;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
+            padding: 0.875rem 1rem;
+            color: var(--text-primary);
             text-decoration: none;
             transition: var(--transition);
             position: relative;
-            border-radius: 0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
         }
 
         .nav-link:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
 
         .nav-link.active {
-            color: white;
-            background: var(--secondary-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         .nav-link.active::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--accent-color);
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 70%;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            border-radius: 0 3px 3px 0;
         }
 
         .nav-icon {
@@ -273,28 +324,38 @@ $employeeDetails = getEmployeeDetails($employee_username);
 
         /* Main Content */
         .main-content {
-            margin-left: var(--sidebar-width);
+            margin-left: calc(var(--sidebar-width) + 40px);
+            margin-top: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px;
             transition: var(--transition);
-            min-height: 100vh;
+            min-height: calc(100vh - 40px);
         }
 
         .main-content.expanded {
-            margin-left: var(--sidebar-collapsed-width);
+            margin-left: calc(var(--sidebar-collapsed-width) + 40px);
         }
 
         /* Top Header */
         .top-header {
-            background: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-bottom: 1px solid #e9ecef;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
         .header-title {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            font-weight: 700;
             margin: 0;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .user-info {
@@ -304,106 +365,226 @@ $employeeDetails = getEmployeeDetails($employee_username);
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--secondary-color);
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .user-details h6 {
             margin: 0;
-            color: var(--primary-color);
+            color: var(--text-primary);
             font-weight: 600;
         }
 
         .user-details small {
-            color: #6c757d;
+            color: var(--text-secondary);
         }
 
         /* Content Area */
         .content-area {
-            padding: 2rem;
+            padding: 0;
         }
 
         .welcome-card {
-            background: linear-gradient(135deg, var(--secondary-color), var(--success-color));
-            color: white;
-            border-radius: 12px;
-            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            border-radius: 20px;
+            padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
         }
 
         .welcome-card h2 {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .welcome-card p {
             margin: 0;
-            opacity: 0.9;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
         /* Stats Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e9ecef;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 16px 48px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
 
         .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             color: white;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
-        .stat-icon.companies { background: var(--secondary-color); }
-        .stat-icon.candidates { background: var(--success-color); }
-        .stat-icon.employees { background: var(--warning-color); }
-        .stat-icon.appointments { background: var(--accent-color); }
+        .stat-icon.companies { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        .stat-icon.candidates { 
+            background: linear-gradient(135deg, var(--success-color), #34d399);
+        }
+        .stat-icon.employees { 
+            background: linear-gradient(135deg, var(--warning-color), #fbbf24);
+        }
+        .stat-icon.appointments { 
+            background: linear-gradient(135deg, var(--accent-color), #f472b6);
+        }
 
         .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .stat-label {
-            color: #6c757d;
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
             margin: 0;
+        }
+
+        /* Card Content Styling */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .card-header {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px 16px 0 0 !important;
+        }
+
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: transparent;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #34d399);
+            border-color: transparent;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, var(--info-color), #67e8f9);
+            border-color: transparent;
+        }
+
+        .btn-outline-primary {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
         }
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .sidebar {
+                left: 10px;
+                top: 10px;
+                height: calc(100vh - 20px);
                 transform: translateX(-100%);
             }
             
@@ -412,24 +593,27 @@ $employeeDetails = getEmployeeDetails($employee_username);
             }
             
             .main-content {
-                margin-left: 0;
+                margin: 10px;
             }
             
             .mobile-toggle {
                 position: fixed;
-                top: 1rem;
-                left: 1rem;
+                top: 1.5rem;
+                left: 1.5rem;
                 z-index: 1001;
-                background: var(--primary-color);
-                color: white;
-                border: none;
-                width: 45px;
-                height: 45px;
-                border-radius: 8px;
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                color: var(--primary-color);
+                border: 1px solid var(--glass-border);
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                box-shadow: 
+                    0 8px 32px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
             }
             
             .sidebar-overlay {
@@ -438,7 +622,8 @@ $employeeDetails = getEmployeeDetails($employee_username);
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(5px);
                 z-index: 999;
                 display: none;
             }
@@ -446,25 +631,62 @@ $employeeDetails = getEmployeeDetails($employee_username);
             .sidebar-overlay.show {
                 display: block;
             }
+
+            .welcome-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
         }
 
         /* Scrollbar Styling */
         .sidebar::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
 
         .sidebar::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
         .sidebar::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.5);
         }
+
+        /* Additional Glass Effects */
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .border-0 {
+            border: 1px solid var(--glass-border) !important;
+        }
+
+        .shadow-sm {
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .stat-card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+        .stat-card:nth-child(2) { animation: float 6s ease-in-out infinite 0.5s; }
+        .stat-card:nth-child(3) { animation: float 6s ease-in-out infinite 1s; }
+        .stat-card:nth-child(4) { animation: float 6s ease-in-out infinite 1.5s; }
     </style>
 </head>
 <body>
